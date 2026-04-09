@@ -67,9 +67,9 @@ export function useRangeSelect({ onRangeReady } = {}) {
   }
 
   useEffect(() => {
-    window.addEventListener('mouseup', handleMouseUp);
-    return () => window.removeEventListener('mouseup', handleMouseUp);
-  });
+  window.addEventListener("mouseup", handleMouseUp);
+  return () => window.removeEventListener("mouseup", handleMouseUp);
+}, [selecting, hoverKey]);
 
   return {
     rangeStart, rangeEnd,
