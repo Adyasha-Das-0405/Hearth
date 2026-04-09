@@ -7,10 +7,6 @@ export function getDaysInMonth(year, month) {
   return new Date(year, month + 1, 0).getDate();
 }
 
-/**
- * First weekday of the month, adjusted so Mon = 0 … Sun = 6
- * (matches the MON-first calendar grid).
- */
 export function getFirstDayOfMonth(year, month) {
   const day = new Date(year, month, 1).getDay(); // 0 = Sun
   return day === 0 ? 6 : day - 1;
@@ -115,4 +111,49 @@ export function indexEventsByStartDay(events) {
     acc[lo].push(ev);
     return acc;
   }, {});
+}
+
+// ── Full-span Event Indexing ───────────────────────────────────────────────
+
+/**
+ * indexEventsByDay
+ *
+ * Unlike indexEventsByStartDay, this maps EVERY date in an event's range
+ * to that event, so chips appear on every day the event covers.
+ *
+ * For display purposes we also record whether a given day is the
+ * 'start', 'end', 'mid', or 'solo' position within the event span —
+ * this lets the chip render slightly differently at edges vs interior days.
+ *
+ * @param {object[]} events
+ * @returns {Record<string, Array<{event, position}>>}
+ */
+export function indexEventsByDay(events) {
+  const acc = {};
+
+  events.forEach((ev) => {
+    const { lo, hi } = normaliseRange(ev.rangeStart, ev.rangeEnd ?? ev.rangeStart);
+    const isSolo = lo === hi;
+
+    // Walk every calendar day between lo and hi
+    const cursor = new Date(`${lo}T00:00:00`);
+    const end    = new Date(`${hi}T00:00:00`);
+
+    while (cursor <= end) {
+      const k = dateKey(cursor.getFullYear(), cursor.getMonth(), cursor.getDate());
+
+      let position;
+      if (isSolo)   position = 'solo';
+      else if (k === lo) position = 'start';
+      else if (k === hi) position = 'end';
+      else               position = 'mid';
+
+      if (!acc[k]) acc[k] = [];
+      acc[k].push({ event: ev, position });
+
+      cursor.setDate(cursor.getDate() + 1);
+    }
+  });
+
+  return acc;
 }

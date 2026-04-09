@@ -1,3 +1,5 @@
+// ── Calendar Labels ────────────────────────────────────────────────────────
+
 export const DAYS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
 export const MONTHS = [
@@ -5,13 +7,17 @@ export const MONTHS = [
   'July', 'August', 'September', 'October', 'November', 'December',
 ];
 
+// ── Event Importance Levels ────────────────────────────────────────────────
+// Palette: soft sage · warm amber · dusty rose · deep periwinkle
+// Muted enough to sit on photography, distinct enough to differentiate at a glance.
 export const IMPORTANCE_OPTIONS = [
-  { value: 'low',      label: 'Low Priority',       cls: 'imp-low',      chip: 'color-low'      },
-  { value: 'med',      label: 'Medium Priority',     cls: 'imp-med',      chip: 'color-med'      },
-  { value: 'high',     label: 'High Performance',    cls: 'imp-high',     chip: 'color-high'     },
-  { value: 'critical', label: 'Critical / Deadline', cls: 'imp-critical', chip: 'color-critical' },
+  { value: 'low',      label: 'Casual',    cls: 'imp-low',      chip: 'color-low'      },
+  { value: 'med',      label: 'Scheduled', cls: 'imp-med',      chip: 'color-med'      },
+  { value: 'high',     label: 'Important', cls: 'imp-high',     chip: 'color-high'     },
+  { value: 'critical', label: 'Urgent',    cls: 'imp-critical', chip: 'color-critical' },
 ];
 
+// ── Preset Background Images ───────────────────────────────────────────────
 export const BG_IMAGES = [
   'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80',
   'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1600&q=80',
