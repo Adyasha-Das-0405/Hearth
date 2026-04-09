@@ -3,12 +3,13 @@ import { useState } from 'react';
 // Hooks
 import { useMonthNav }    from './hooks/useMonthNav';
 import { useRangeSelect } from './hooks/useRangeSelect';
-import { useBackground }  from './hooks/useBackground';
 import { useEvents }      from './hooks/useEvents';
+import { useSettings }    from './hooks/useSettings';
 
 // Layout
-import CalHeader  from './components/layout/CalHeader';
-import MonthHero  from './components/layout/MonthHero';
+import CalHeader     from './components/layout/CalHeader';
+import MonthHero     from './components/layout/MonthHero';
+import SettingsPanel from './components/layout/SettingsPanel';
 
 // Calendar
 import CalendarGrid from './components/calendar/CalendarGrid';
@@ -26,8 +27,12 @@ import './styles/index.css';
 export default function App() {
   // ── Feature hooks ──────────────────────────────────────────────────────
   const { year, month, flipClass, changeMonth } = useMonthNav();
-  const { bgImg, cycleBg, handleBgUpload, openFilePicker, fileInputRef } = useBackground();
-  const { events, addEvent, recentEvents } = useEvents();
+  const { events, addEvent, recentEvents }      = useEvents();
+  const {
+    bgImg, cycleBg, handleBgUpload, openFilePicker, fileInputRef,
+    isDayMode, toggleDayNight,
+    isPlaying, toggleMusic, trackIdx, selectTrack, volume, setVolume, musicReady,
+  } = useSettings();
 
   // ── UI state ────────────────────────────────────────────────────────────
   const [showConfigModal, setShowConfigModal] = useState(false);
@@ -36,13 +41,8 @@ export default function App() {
 
   // ── Range selection ─────────────────────────────────────────────────────
   const {
-    rangeStart,
-    rangeEnd,
-    selecting,
-    hoverKey,
-    handleMouseDown,
-    handleMouseEnter,
-    clearRange,
+    rangeStart, rangeEnd, selecting, hoverKey,
+    handleMouseDown, handleMouseEnter, clearRange,
   } = useRangeSelect({
     onRangeReady: () => setShowConfigModal(true),
   });
@@ -69,20 +69,17 @@ export default function App() {
   return (
     <div
       className="cal-root"
-      // Cancel drag if the cursor leaves the window entirely
       onMouseLeave={() => { if (selecting) clearRange(); }}
     >
       {/* Background layers */}
-      <div className="bg-layer" style={{ backgroundImage: `url('${bgImg}')` }} />
+      <div
+        className={`bg-layer ${isDayMode ? 'bg-layer--day' : ''}`}
+        style={{ backgroundImage: `url('${bgImg}')` }}
+      />
       <div className="bg-noise" />
 
-      {/* Header */}
-      <CalHeader
-        onCycleBg={cycleBg}
-        onOpenFilePicker={openFilePicker}
-        onBgUpload={handleBgUpload}
-        fileInputRef={fileInputRef}
-      />
+      {/* Header — logo, nav, clock only */}
+      <CalHeader />
 
       {/* Month title + navigation */}
       <MonthHero
@@ -96,7 +93,7 @@ export default function App() {
       {/* Drag hint */}
       <p className="hint-bar">Click &amp; drag across dates to create an event range</p>
 
-      {/* Main content grid */}
+      {/* Main content */}
       <div className="cal-body">
         <CalendarGrid
           year={year}
@@ -123,6 +120,23 @@ export default function App() {
           onSelectEvent={setDetailEvent}
         />
       </div>
+
+      {/* ── Settings FAB + tray (bottom-right) ─────────────────────────── */}
+      <SettingsPanel
+        onCycleBg={cycleBg}
+        onOpenFilePicker={openFilePicker}
+        onBgUpload={handleBgUpload}
+        fileInputRef={fileInputRef}
+        isDayMode={isDayMode}
+        onToggleDayNight={toggleDayNight}
+        isPlaying={isPlaying}
+        onToggleMusic={toggleMusic}
+        trackIdx={trackIdx}
+        onSelectTrack={selectTrack}
+        volume={volume}
+        onVolumeChange={setVolume}
+        musicReady={musicReady}
+      />
 
       {/* Modals */}
       {showConfigModal && rangeStart && (

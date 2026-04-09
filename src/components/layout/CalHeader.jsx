@@ -1,11 +1,6 @@
 import Clock from './Clock';
 
-export default function CalHeader({
-  onCycleBg,
-  onOpenFilePicker,
-  onBgUpload,
-  fileInputRef,
-}) {
+export default function CalHeader() {
   return (
     <header className="cal-header">
       <div className="logo">calendly</div>
@@ -17,20 +12,6 @@ export default function CalHeader({
       </nav>
 
       <div className="header-right">
-        <button className="bg-upload-btn" onClick={onCycleBg}>
-          🌄 Change BG
-        </button>
-        <button className="bg-upload-btn" onClick={onOpenFilePicker}>
-          📎 Upload BG
-        </button>
-        {/* Hidden file input — triggered programmatically */}
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          style={{ display: 'none' }}
-          onChange={onBgUpload}
-        />
         <Clock />
       </div>
     </header>
