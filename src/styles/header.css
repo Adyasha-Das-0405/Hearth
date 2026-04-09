@@ -2,10 +2,11 @@
 .cal-header {
   position: relative;
   z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 20px 40px;
+
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
 }
 
 .logo {
@@ -19,7 +20,10 @@
 .nav-links {
   display: flex;
   gap: 32px;
+  justify-content: center;
+  align-items: center;
 }
+
 .nav-links a {
   color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
@@ -30,11 +34,15 @@
   transition: color 0.2s;
   cursor: pointer;
 }
-.nav-links a:hover { color: #fff; }
+
+.nav-links a:hover {
+  color: #fff;
+}
 
 .header-right {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 16px;
 }
 
@@ -51,6 +59,7 @@
   letter-spacing: 0.04em;
   white-space: nowrap;
 }
+
 .bg-upload-btn:hover {
   background: rgba(255, 255, 255, 0.2);
   color: #fff;
@@ -102,6 +111,7 @@
   transition: all 0.2s;
   backdrop-filter: blur(8px);
 }
+
 .month-nav-btn:hover {
   background: rgba(255, 255, 255, 0.25);
   transform: scale(1.08);
@@ -119,13 +129,27 @@
 }
 
 @keyframes fadeSlide {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 600px) {
-  .cal-header { padding: 16px; }
-  .nav-links  { display: none; }
-  .month-title { font-size: 3.5rem; }
+  .cal-header {
+    padding: 16px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .month-title {
+    font-size: 3.5rem;
+  }
 }

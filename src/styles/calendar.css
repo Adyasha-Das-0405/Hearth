@@ -73,7 +73,7 @@
 /* ── Today ───────────────────────────────────────────────── */
 .date-cell.today {
   border: 2px solid var(--accent2);
-  background: rgba(74, 144, 217, 0.18);
+  background: rgb(238, 245, 252);
 }
 
 .date-cell.today .date-num {

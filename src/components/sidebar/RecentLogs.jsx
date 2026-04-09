@@ -41,7 +41,7 @@ export default function RecentLogs({ events, onSelect, onEdit, onDelete }) {
   if (events.length === 0) return null;
 
   return (
-    <div className="panel-card">
+    <div className="panel-card recent-logs-card" id="recent-logs">
       <div className="logs-title">
         <span style={{ color: "var(--accent)" }}>▪</span>
         Recent Logs

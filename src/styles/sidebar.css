@@ -25,7 +25,7 @@
 }
 
 .panel-range {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-size: 1.15rem;
   color: #fff;
   margin-bottom: 16px;
@@ -38,7 +38,7 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
   color: #fff;
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: 0.85rem;
   padding: 12px;
   resize: none;
@@ -46,9 +46,11 @@
   min-height: 100px;
   transition: border-color 0.2s;
 }
+
 .note-textarea::placeholder {
   color: rgba(255, 255, 255, 0.3);
 }
+
 .note-textarea:focus {
   border-color: rgba(200, 255, 0, 0.4);
 }
@@ -63,7 +65,7 @@
 .btn {
   padding: 9px 18px;
   border-radius: 10px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -76,6 +78,7 @@
   background: var(--accent);
   color: #111;
 }
+
 .btn-primary:hover {
   background: #d4ff33;
   transform: translateY(-1px);
@@ -86,6 +89,7 @@
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
+
 .btn-ghost:hover {
   background: rgba(255, 255, 255, 0.18);
 }
@@ -119,7 +123,7 @@
 }
 
 .log-date {
-  font-family: 'DM Mono', monospace;
+  font-family: "DM Mono", monospace;
   font-size: 0.65rem;
   color: var(--accent);
   margin-bottom: 3px;
@@ -155,6 +159,9 @@
   background: rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.9);
   transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .log-btn:hover {
@@ -168,4 +175,11 @@
 
 .log-btn-delete:hover {
   background: rgba(255, 80, 80, 0.22);
+}
+
+/* ── Highlight Effect When Clicking "Events" Navbar ─────────────────────── */
+.recent-logs-card.highlight {
+  border: 2px solid rgba(200, 255, 0, 0.75);
+  box-shadow: 0 0 26px rgba(200, 255, 0, 0.35);
+  transition: all 0.35s ease;
 }
