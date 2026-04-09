@@ -1,4 +1,4 @@
-# 🔥 Hearth — Virtual Wall Calendar
+# Hearth — Virtual Wall Calendar
 
 Hearth is a **virtual wall calendar** designed to feel like a modern personal planning space.  
 It lets you plan your month visually using **date-range selection**, attach notes, assign priority levels, and manage your events through an elegant UI.

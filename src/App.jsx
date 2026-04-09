@@ -16,8 +16,8 @@ import EventDetailModal from "./components/modals/EventDetailModal";
 import "./styles/index.css";
 
 export default function App() {
-  const { year, month, flipClass, changeMonth } = useMonthNav();
-  const { events, addEvent, removeEvent, updateEvent, recentEvents } = useEvents();
+  const { year, month, flipClass, changeMonth, updateYear } = useMonthNav();
+  const { events, addEvent, removeEvent, updateEvent: patchEvent, recentEvents } = useEvents();
 
   const {
     bgImg,
@@ -44,7 +44,7 @@ export default function App() {
   const [modalStart, setModalStart] = useState(null);
   const [modalEnd, setModalEnd] = useState(null);
 
-  // NEW: Editing mode
+  // Editing mode
   const [editingEvent, setEditingEvent] = useState(null);
 
   const {
@@ -88,7 +88,7 @@ export default function App() {
 
   function handleSaveEvent(eventData) {
     if (editingEvent) {
-      updateEvent(editingEvent.id, {
+      patchEvent(editingEvent.id, {
         ...eventData,
         notes: eventData.notes || "",
       });
@@ -118,11 +118,11 @@ export default function App() {
   function handleDeleteEvent(id) {
     removeEvent(id);
 
-    // Close detail modal if it was open for the same event
     if (detailEvent?.id === id) setDetailEvent(null);
 
-    // Close edit modal if deleting currently editing event
-    if (editingEvent?.id === id) handleConfigClose();
+    if (editingEvent?.id === id) {
+      handleConfigClose();
+    }
   }
 
   return (
@@ -201,6 +201,8 @@ export default function App() {
         volume={volume}
         onVolumeChange={setVolume}
         musicReady={musicReady}
+        year={year}
+        onYearChange={updateYear}
       />
 
       {showConfigModal && modalStart && (
