@@ -46,8 +46,12 @@
   min-height: 100px;
   transition: border-color 0.2s;
 }
-.note-textarea::placeholder { color: rgba(255, 255, 255, 0.3); }
-.note-textarea:focus         { border-color: rgba(200, 255, 0, 0.4); }
+.note-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+.note-textarea:focus {
+  border-color: rgba(200, 255, 0, 0.4);
+}
 
 /* ── Button Row ──────────────────────────────────────────────────────────── */
 .btn-row {
@@ -68,11 +72,23 @@
   transition: all 0.18s;
 }
 
-.btn-primary { background: var(--accent); color: #111; }
-.btn-primary:hover { background: #d4ff33; transform: translateY(-1px); }
+.btn-primary {
+  background: var(--accent);
+  color: #111;
+}
+.btn-primary:hover {
+  background: #d4ff33;
+  transform: translateY(-1px);
+}
 
-.btn-ghost { background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255, 255, 255, 0.15); }
-.btn-ghost:hover { background: rgba(255, 255, 255, 0.18); }
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
 
 /* ── Recent Logs ─────────────────────────────────────────────────────────── */
 .logs-title {
@@ -96,6 +112,7 @@
   transition: all 0.2s;
   border: 1px solid rgba(255, 255, 255, 0.07);
 }
+
 .log-item:hover {
   background: rgba(255, 255, 255, 0.1);
   transform: translateX(3px);
@@ -113,4 +130,42 @@
   font-size: 0.82rem;
   color: rgba(255, 255, 255, 0.85);
   font-weight: 500;
+}
+
+/* ── Recent Logs Actions (Edit/Delete Buttons) ─────────────────────────── */
+.log-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.log-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.log-btn {
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 5px 7px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.9);
+  transition: all 0.15s ease;
+}
+
+.log-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  transform: scale(1.08);
+}
+
+.log-btn-edit:hover {
+  background: rgba(80, 160, 255, 0.22);
+}
+
+.log-btn-delete:hover {
+  background: rgba(255, 80, 80, 0.22);
 }

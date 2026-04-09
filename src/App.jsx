@@ -17,7 +17,7 @@ import "./styles/index.css";
 
 export default function App() {
   const { year, month, flipClass, changeMonth } = useMonthNav();
-  const { events, addEvent, recentEvents } = useEvents();
+  const { events, addEvent, removeEvent, updateEvent, recentEvents } = useEvents();
 
   const {
     bgImg,
@@ -40,9 +40,12 @@ export default function App() {
   const [detailEvent, setDetailEvent] = useState(null);
   const [sideNote, setSideNote] = useState("");
 
-  // ✅ NEW: modal target state (fixes the pen click bug)
+  // Modal target range
   const [modalStart, setModalStart] = useState(null);
   const [modalEnd, setModalEnd] = useState(null);
+
+  // NEW: Editing mode
+  const [editingEvent, setEditingEvent] = useState(null);
 
   const {
     rangeStart,
@@ -55,37 +58,56 @@ export default function App() {
     handleMouseEnter,
     clearRange,
   } = useRangeSelect({
-    // Drag completes → auto-open modal immediately with correct range
     onRangeReady: (lo, hi) => {
+      setEditingEvent(null);
       setModalStart(lo);
       setModalEnd(hi);
       setShowConfigModal(true);
     },
   });
 
-  // ✅ Single-day pen click → open modal ONLY for that date
-  function handlePenClick(key) {
-    setModalStart(key);
-    setModalEnd(key);
+  function openCreateModal(start, end) {
+    setEditingEvent(null);
+    setModalStart(start);
+    setModalEnd(end);
+    setShowConfigModal(true);
+  }
+
+  function openEditModal(event) {
+    setEditingEvent(event);
+    setModalStart(event.rangeStart);
+    setModalEnd(event.rangeEnd || event.rangeStart);
     setShowConfigModal(true);
     setSelectedKey(null);
   }
 
+  function handlePenClick(key) {
+    openCreateModal(key, key);
+    setSelectedKey(null);
+  }
+
   function handleSaveEvent(eventData) {
-    addEvent({ ...eventData, notes: eventData.notes || sideNote });
+    if (editingEvent) {
+      updateEvent(editingEvent.id, {
+        ...eventData,
+        notes: eventData.notes || "",
+      });
+    } else {
+      addEvent({ ...eventData, notes: eventData.notes || sideNote });
+    }
 
     setShowConfigModal(false);
     setSideNote("");
-
-    // Clear modal target
     setModalStart(null);
     setModalEnd(null);
+    setEditingEvent(null);
   }
 
   function handleConfigClose() {
     setShowConfigModal(false);
     setModalStart(null);
     setModalEnd(null);
+    setEditingEvent(null);
   }
 
   function handleClearRange() {
@@ -93,8 +115,23 @@ export default function App() {
     setSideNote("");
   }
 
+  function handleDeleteEvent(id) {
+    removeEvent(id);
+
+    // Close detail modal if it was open for the same event
+    if (detailEvent?.id === id) setDetailEvent(null);
+
+    // Close edit modal if deleting currently editing event
+    if (editingEvent?.id === id) handleConfigClose();
+  }
+
   return (
-    <div className="cal-root" onMouseLeave={() => { if (selecting) clearRange(); }}>
+    <div
+      className="cal-root"
+      onMouseLeave={() => {
+        if (selecting) clearRange();
+      }}
+    >
       <div
         className={`bg-layer ${isDayMode ? "bg-layer--day" : ""}`}
         style={{ backgroundImage: `url('${bgImg}')` }}
@@ -139,15 +176,14 @@ export default function App() {
           onNoteChange={setSideNote}
           onClear={handleClearRange}
           onSaveNote={() => {
-            // if user clicks save note button, open modal using current range
             if (rangeStart) {
-              setModalStart(rangeStart);
-              setModalEnd(rangeEnd || rangeStart);
-              setShowConfigModal(true);
+              openCreateModal(rangeStart, rangeEnd || rangeStart);
             }
           }}
           recentEvents={recentEvents()}
           onSelectEvent={setDetailEvent}
+          onEditEvent={openEditModal}
+          onDeleteEvent={handleDeleteEvent}
         />
       </div>
 
@@ -172,6 +208,7 @@ export default function App() {
           rangeStart={modalStart}
           rangeEnd={modalEnd}
           initialNote={sideNote}
+          editEvent={editingEvent}
           onSave={handleSaveEvent}
           onClose={handleConfigClose}
         />

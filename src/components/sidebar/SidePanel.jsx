@@ -1,5 +1,5 @@
-import RecentLogs from './RecentLogs';
-import { formatRange } from '../../utils/dateUtils';
+import RecentLogs from "./RecentLogs";
+import { formatRange } from "../../utils/dateUtils";
 
 export default function SidePanel({
   rangeStart,
@@ -10,13 +10,14 @@ export default function SidePanel({
   onSaveNote,
   recentEvents,
   onSelectEvent,
+  onEditEvent,
+  onDeleteEvent,
 }) {
-  const hasRange    = rangeStart && rangeEnd;
-  const rangeLabel  = hasRange ? formatRange(rangeStart, rangeEnd) : null;
+  const hasRange = rangeStart && rangeEnd;
+  const rangeLabel = hasRange ? formatRange(rangeStart, rangeEnd) : null;
 
   return (
     <div className="side-panel">
-      {/* ── Note Card ───────────────────────────────────────────────────── */}
       <div className="panel-card">
         {hasRange ? (
           <>
@@ -30,8 +31,12 @@ export default function SidePanel({
               rows={4}
             />
             <div className="btn-row">
-              <button className="btn btn-ghost" onClick={onClear}>Clear</button>
-              <button className="btn btn-primary" onClick={onSaveNote}>Save Note</button>
+              <button className="btn btn-ghost" onClick={onClear}>
+                Clear
+              </button>
+              <button className="btn btn-primary" onClick={onSaveNote}>
+                Save Note
+              </button>
             </div>
           </>
         ) : (
@@ -39,7 +44,11 @@ export default function SidePanel({
             <div className="panel-label">Quick Note</div>
             <div
               className="panel-range"
-              style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.45)', fontFamily: 'DM Sans' }}
+              style={{
+                fontSize: "0.9rem",
+                color: "rgba(255,255,255,0.45)",
+                fontFamily: "DM Sans",
+              }}
             >
               Select a date range on the calendar to create an event
             </div>
@@ -54,8 +63,12 @@ export default function SidePanel({
         )}
       </div>
 
-      {/* ── Recent Logs ─────────────────────────────────────────────────── */}
-      <RecentLogs events={recentEvents} onSelect={onSelectEvent} />
+      <RecentLogs
+        events={recentEvents}
+        onSelect={onSelectEvent}
+        onEdit={onEditEvent}
+        onDelete={onDeleteEvent}
+      />
     </div>
   );
 }
